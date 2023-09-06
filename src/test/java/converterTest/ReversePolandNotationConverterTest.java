@@ -3,7 +3,9 @@ package converterTest;
 import org.junit.jupiter.api.Test;
 import ru.yandex.kingartaved.converter.IPolandNotationConverter;
 import ru.yandex.kingartaved.converter.impl.ReversePolandNotationConverter;
-import ru.yandex.kingartaved.preparator.IPreparator;
+import ru.yandex.kingartaved.preparator.IExpressionPreparator;
+import ru.yandex.kingartaved.preparator.IUnaryMinusPreparator;
+import ru.yandex.kingartaved.preparator.impl.ExpressionPreparator;
 import ru.yandex.kingartaved.preparator.impl.UnaryMinusPreparator;
 import ru.yandex.kingartaved.validator.IValidator;
 import ru.yandex.kingartaved.validator.impl.MathExpressionValidator;
@@ -18,8 +20,9 @@ public class ReversePolandNotationConverterTest {
 
     @Test
     public void convertToPostfixTest1(){
-        IValidator iValidator = new MathExpressionValidator("(-1+5/2+3^)");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("(-1+5/2+3^)");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator, iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         //косяк в конвертации при добавлении в выражение ниже знака ^, выходит лишняя скобка,
         // во второй версии описал проблему.
@@ -29,8 +32,9 @@ public class ReversePolandNotationConverterTest {
     }
     @Test
     public void convertToPostfixTest2(){
-        IValidator iValidator = new MathExpressionValidator("1-(1+2)-3+4-5*7");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("1-(1+2)-3+4-5*7");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator, iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         List<String> actualList = reversePolandNotationConverter.resultArrayAfterConversation();
         List<String> expectedList =new ArrayList<>(Arrays.asList("1", "1", "2", "+", "-", "3", "-", "4", "+", "5", "7", "*", "-"));
@@ -40,8 +44,9 @@ public class ReversePolandNotationConverterTest {
 
     @Test
     public void convertToPostfixNegativeTest1() {
-        IValidator iValidator = new MathExpressionValidator("(-1+5/2+3^)");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("(-1+5/2+3^)");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator, iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         //косяк в конвертации при добавлении в выражение ниже знака ^, выходит лишняя скобка,
         // во второй версии описал проблему.
@@ -51,8 +56,9 @@ public class ReversePolandNotationConverterTest {
     }
     @Test
     public void convertToPostfixNegativeTest2() {
-        IValidator iValidator = new MathExpressionValidator("1-(1+2)-3+4-5*7");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("1-(1+2)-3+4-5*7");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator, iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         //косяк в конвертации при добавлении в выражение ниже знака ^, выходит лишняя скобка,
         // во второй версии описал проблему.

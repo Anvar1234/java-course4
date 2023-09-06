@@ -1,5 +1,6 @@
 package ru.yandex.kingartaved.validator.impl;
 
+import ru.yandex.kingartaved.preparator.IExpressionPreparator;
 import ru.yandex.kingartaved.validator.IValidator;
 
 import java.util.Deque;
@@ -10,15 +11,12 @@ import static ru.yandex.kingartaved.utils.Fields.*;
 public class MathExpressionValidator implements IValidator {
 
 
-    private final String expression;
+    private IExpressionPreparator iExpressionPreparator;
 
-    public MathExpressionValidator(String inputExpression) {
-        this.expression = inputExpression.replaceAll(" ", "").trim();
+    public MathExpressionValidator(IExpressionPreparator iExpressionPreparator) {
+        this.iExpressionPreparator = iExpressionPreparator;
     }
 
-    public String getExpression() {
-        return expression;
-    }
 
     /**
      * The public result method for checking the validity of an expression.
@@ -37,7 +35,7 @@ public class MathExpressionValidator implements IValidator {
     private boolean isBracketsOrderCorrect() throws RuntimeException {
         if (isValidTokens()) {
             Deque<Character> stack = new LinkedList<>();
-            for (char c : expression.toCharArray()) {
+            for (char c : iExpressionPreparator.getPreparedExpression().toCharArray()) {
                 //если мапа содержит значение "с" (откр скобка), то пушим ее в стек.
                 if (brackets.containsValue(c)) {
                     stack.push(c);
@@ -65,7 +63,7 @@ public class MathExpressionValidator implements IValidator {
      */
     private boolean isValidTokens() throws RuntimeException {
         if (isNotEmpty()) {
-            for (String item : expression.split("")) {
+            for (String item : iExpressionPreparator.getPreparedExpression().split("")) {
                 if (!tokens.contains(item)) return false;
             }
             return true;
@@ -82,7 +80,7 @@ public class MathExpressionValidator implements IValidator {
      * Method for checking an expression for emptiness.
      */
     private boolean isNotEmpty() {
-        return !expression.isEmpty();
+        return !iExpressionPreparator.getPreparedExpression().isEmpty();
     }
 
     //Method for test

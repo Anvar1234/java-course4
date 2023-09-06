@@ -1,7 +1,7 @@
 package ru.yandex.kingartaved.converter.impl;
 
 import ru.yandex.kingartaved.converter.IPolandNotationConverter;
-import ru.yandex.kingartaved.preparator.IPreparator;
+import ru.yandex.kingartaved.preparator.IUnaryMinusPreparator;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ import static ru.yandex.kingartaved.utils.Fields.priorities;
 import static ru.yandex.kingartaved.utils.Utils.isNumber;
 
 public class ReversePolandNotationConverter implements IPolandNotationConverter { //Reverse Polish notation
-    private IPreparator iPreparator;
+    private IUnaryMinusPreparator iUnaryMinusPreparator;
 
-    public ReversePolandNotationConverter(IPreparator iPreparator) {
-        this.iPreparator = iPreparator;
+    public ReversePolandNotationConverter(IUnaryMinusPreparator iUnaryMinusPreparator) {
+        this.iUnaryMinusPreparator = iUnaryMinusPreparator;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ReversePolandNotationConverter implements IPolandNotationConverter 
     private List<String> convertToPostfix() {
 
         //IPreparator unaryMinusPreparator = new UnaryMinusPreparator();
-        List<String> validExpressionAfterTransformation = iPreparator.resultArrayAfterTransformation();
+        List<String> validExpressionAfterTransformation = iUnaryMinusPreparator.resultArrayAfterTransformation();
 
 
         Deque<String> operators = new ArrayDeque<>(); //стек операторов

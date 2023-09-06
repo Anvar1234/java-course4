@@ -3,7 +3,9 @@ package serviceTest;
 import org.junit.jupiter.api.Test;
 import ru.yandex.kingartaved.converter.IPolandNotationConverter;
 import ru.yandex.kingartaved.converter.impl.ReversePolandNotationConverter;
-import ru.yandex.kingartaved.preparator.IPreparator;
+import ru.yandex.kingartaved.preparator.IExpressionPreparator;
+import ru.yandex.kingartaved.preparator.IUnaryMinusPreparator;
+import ru.yandex.kingartaved.preparator.impl.ExpressionPreparator;
 import ru.yandex.kingartaved.preparator.impl.UnaryMinusPreparator;
 import ru.yandex.kingartaved.service.IExpressionService;
 import ru.yandex.kingartaved.service.impl.ExpressionService;
@@ -17,8 +19,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ExpressionServiceTest {
     @Test
     public void sizeEqualityTest() {
-        IValidator iValidator = new MathExpressionValidator(" (-1+5/2+3^)");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator(" (-1+5/2+3^)");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator, iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         IExpressionService expressionService = new ExpressionService(reversePolandNotationConverter);
         Deque<Double> actualDeque = expressionService.resultDequeAfterCalculation();
@@ -28,8 +31,9 @@ public class ExpressionServiceTest {
 
     @Test
     public void sizeEqualityNegativeTest() {
-        IValidator iValidator = new MathExpressionValidator("(-1+5/2+3^)");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("(-1+5/2+3^)");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator, iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         IExpressionService expressionService = new ExpressionService(reversePolandNotationConverter);
         Deque<Double> actualDeque = expressionService.resultDequeAfterCalculation();
@@ -40,8 +44,9 @@ public class ExpressionServiceTest {
 
     @Test
     public void calculatePostfixNotationTest1() throws RuntimeException {
-        IValidator iValidator = new MathExpressionValidator("(-1+5/2+3^)");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("(-1+5/2+3^)");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator,iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         IExpressionService expressionService = new ExpressionService(reversePolandNotationConverter);
         Deque<Double> actualDeque = expressionService.resultDequeAfterCalculation();
@@ -51,8 +56,9 @@ public class ExpressionServiceTest {
 
     @Test
     public void calculatePostfixNotationTest2() throws RuntimeException {
-        IValidator iValidator = new MathExpressionValidator("1-(1+2)-3+4-5*7");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("1-(1+2)-3+4-5*7");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator,iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         IExpressionService expressionService = new ExpressionService(reversePolandNotationConverter);
         Deque<Double> actualDeque = expressionService.resultDequeAfterCalculation();
@@ -63,8 +69,9 @@ public class ExpressionServiceTest {
 
     @Test
     public void calculatePostfixNotationNegativeTest1() throws RuntimeException {
-        IValidator iValidator = new MathExpressionValidator("(1+5/2+3^)");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("(1+5/2+3^)");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator,iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         IExpressionService expressionService = new ExpressionService(reversePolandNotationConverter);
         Deque<Double> actualDeque = expressionService.resultDequeAfterCalculation();
@@ -74,8 +81,9 @@ public class ExpressionServiceTest {
 
     @Test
     public void calculatePostfixNotationNegativeTest2() throws RuntimeException {
-        IValidator iValidator = new MathExpressionValidator("-1-(1+2)-3+4-5*7");
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator("-1-(1+2)-3+4-5*7");
+        IValidator iValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(iValidator,iExpressionPreparator);
         IPolandNotationConverter reversePolandNotationConverter = new ReversePolandNotationConverter(unaryMinusPreparator);
         IExpressionService expressionService = new ExpressionService(reversePolandNotationConverter);
         Deque<Double> actualDeque = expressionService.resultDequeAfterCalculation();

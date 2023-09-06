@@ -2,7 +2,9 @@ package ru.yandex.kingartaved;
 
 import ru.yandex.kingartaved.converter.IPolandNotationConverter;
 import ru.yandex.kingartaved.converter.impl.ReversePolandNotationConverter;
-import ru.yandex.kingartaved.preparator.IPreparator;
+import ru.yandex.kingartaved.preparator.IExpressionPreparator;
+import ru.yandex.kingartaved.preparator.IUnaryMinusPreparator;
+import ru.yandex.kingartaved.preparator.impl.ExpressionPreparator;
 import ru.yandex.kingartaved.preparator.impl.UnaryMinusPreparator;
 import ru.yandex.kingartaved.service.impl.ExpressionService;
 import ru.yandex.kingartaved.service.IExpressionService;
@@ -31,8 +33,9 @@ public class ConsoleView {
         //присваиваем пользовательский ввод переменной inputExpression.
         String inputExpression = prompt();
 
-        IValidator mathExpressionValidator = new MathExpressionValidator(inputExpression);
-        IPreparator unaryMinusPreparator = new UnaryMinusPreparator(mathExpressionValidator);
+        IExpressionPreparator iExpressionPreparator = new ExpressionPreparator(inputExpression);
+        IValidator mathExpressionValidator = new MathExpressionValidator(iExpressionPreparator);
+        IUnaryMinusPreparator unaryMinusPreparator = new UnaryMinusPreparator(mathExpressionValidator, iExpressionPreparator);
         List<String> tempArray = unaryMinusPreparator.resultArrayAfterTransformation(); // specialSymbolChanger();
         System.out.println("После трансформатора:\n" + tempArray);
 

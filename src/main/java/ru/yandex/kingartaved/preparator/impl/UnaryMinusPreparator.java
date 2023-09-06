@@ -1,7 +1,8 @@
 package ru.yandex.kingartaved.preparator.impl;
 
 
-import ru.yandex.kingartaved.preparator.IPreparator;
+import ru.yandex.kingartaved.preparator.IExpressionPreparator;
+import ru.yandex.kingartaved.preparator.IUnaryMinusPreparator;
 import ru.yandex.kingartaved.validator.IValidator;
 
 import java.util.ArrayList;
@@ -12,10 +13,12 @@ import static ru.yandex.kingartaved.utils.Fields.brackets;
 import static ru.yandex.kingartaved.utils.Utils.addSpaces;
 
 
-public class UnaryMinusPreparator implements IPreparator {
+public class UnaryMinusPreparator implements IUnaryMinusPreparator {
+    private IExpressionPreparator iExpressionPreparator;
     private IValidator iValidator;
 
-    public UnaryMinusPreparator(IValidator iValidator) {
+    public UnaryMinusPreparator(IValidator iValidator, IExpressionPreparator iExpressionPreparator) {
+        this.iExpressionPreparator = iExpressionPreparator;
         this.iValidator = iValidator;
     }
 
@@ -41,8 +44,8 @@ public class UnaryMinusPreparator implements IPreparator {
             System.err.println(e.getMessage());
         }
 
-        //получаем чищенное от пробелов выражение из валидатора.
-        String expression = iValidator.getExpression();
+        //получаем чищенное от пробелов выражение из подготовщика выражения.
+        String expression = iExpressionPreparator.getPreparedExpression();
         //разделяем валидное выражение на токены и операнды с помощью addSpaces и далее сплитуем в список.
         List<String> validExpression = new ArrayList<>(Arrays.asList(addSpaces(expression).split(" ")));
         List<String> tempArray = new ArrayList<>();
